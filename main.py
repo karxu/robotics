@@ -36,8 +36,10 @@ ev3.Sound.speak('hello').wait()
 # tutorial.recordUltraSonic()
 
 
-detector.operateWheelsBasic()
+# detector.operateWheelsBasic()
+detector.obstacleFinder()
+
 
 # remove this if you want it to exit as soon as its done:
-print "wait 5sec, then end"
-time.sleep(5)
+print "wait 10sec, then end"
+time.sleep(10)
