@@ -1,4 +1,4 @@
-# Some simple open loop scripts 
+# Some simple open loop scripts
 
 import ev3dev.ev3 as ev3
 import time
@@ -12,9 +12,9 @@ def operateWheelsBasic():
     motor.connected
 
     # run_time takes milliseconds
-    motor.run_timed(duty_cycle_sp=25, time_sp=500)
+    motor.run_timed(duty_cycle_sp=25, time_sp=1000)
     time.sleep(1)
-    motor.run_timed(duty_cycle_sp=-25, time_sp=500)
+    motor.run_timed(duty_cycle_sp=-25, time_sp=1000)
 
     print('sleeping for 1 second')
     time.sleep(1)

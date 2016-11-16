@@ -8,8 +8,9 @@ import tutorial as tutorial
 import utilities
 import openLoopControl as olc
 import detector as detector
+import taskA as taskA
 
-print ('hello')
+# print ('hello')
 
 ev3.Sound.speak('hello').wait()
 
@@ -36,10 +37,13 @@ ev3.Sound.speak('hello').wait()
 # tutorial.recordUltraSonic()
 
 
-# detector.operateWheelsBasic()
-detector.obstacleFinder()
+# detector.moveForward()
+# detector.obstacleFinder()
+# detector.gyroReading()
+taskA.followline()
 
 
 # remove this if you want it to exit as soon as its done:
-print "wait 10sec, then end"
-time.sleep(10)
+# wasn't working until I added parenthesis (Wed, 16, 3:40)
+print("main: wait 2sec, then end")
+time.sleep(2)
