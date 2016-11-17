@@ -15,12 +15,12 @@ def followline_PID():
 
     # Constants for PID
     offset = 40                           # target color value
-    Tp = 25                               # target duty_cycle value
+    Tp = 30                               # target duty_cycle value
     lowerBound = 0
     higherBound = 80
 
     lowestError = lowerBound - offset
-    Kp = (0 - Tp)/(lowestError - offset)
+    Kp = float(0 - Tp)/float(lowestError - offset)
     print('Kp: ', str(Kp))
     time.sleep(3)
     # Ki = 0
@@ -51,8 +51,9 @@ def followline_PID():
 
            powerL = Tp - turn                 # the power level for the motorL
            powerR = Tp + turn                 # the power level for the motorR
-           left.run_timed(duty_cycle_sp = powerL, time_sp = 200)
-           right.run_timed(duty_cycle_sp = powerR, time_sp = 200)
+           left.run_timed(duty_cycle_sp = powerL, time_sp = 150)
+           right.run_timed(duty_cycle_sp = powerR, time_sp = 150)
+           time.sleep(.1)
            counter += 1
            # lastError = error                  # save the current error so it can be the lastError next time around
                                               # done with loop, go back and do it again.
