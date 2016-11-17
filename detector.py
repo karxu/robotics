@@ -3,36 +3,36 @@ import ev3dev.ev3 as ev3
 import math
 import utilities as util
 
+# declare sonar
+sonar = ev3.UltrasonicSensor(ev3.INPUT_2)
+sonar.connected
+sonar.mode = 'US-DIST-CM'
+
+# declare motors
+motorL =ev3.LargeMotor('outA')
+motorL.connected
+motorR =ev3.LargeMotor('outD')
+motorR.connected
 
 ################################################
-## FUNCTION: detectObstacle ####################
+## FUNCTION: detectObstacle  ###################
 ## Robot either turns or moves forward until ###
 ## an object is detected #######################
 ################################################
 
 def detectObstacle():
 
-    #declare sonar
-    sonar = ev3.UltrasonicSensor(ev3.INPUT_2)
-    sonar.connected
-    sonar.mode = 'US-DIST-CM'
+    # declare PID values
+    Kp = 0.02                                           # Kp = (0-TP)/(-1,050-0)
+    Ki = 0                                              # 0 for now
+    Kd = 0                                              # 0 for now
 
-    #declare motors
-    motorL =ev3.LargeMotor('outA')
-    motorL.connected
-    motorR =ev3.LargeMotor('outD')
-    motorR.connected
+    offset = 1350                                       # offset = (300+2400)/2 (avg)
+    Tp = 25                                             # target power
 
-    Kp = 0.02                             # Kp = (0-TP)/(-1,050-0)
-    Ki = 0                                # 0 for now
-    Kd = 0                                # 0 for now
-
-    offset = 1350                         # offset = (300+2400)/2 (avg)
-    Tp = 25                               # target power
-
-    integral = 0                          # the place where we will store our integral
-    lastError = 0                         # the place where we will store the last error value
-    derivative = 0                        # the place where we will store the derivative
+    integral = 0                                        # the place where we will store our integral
+    lastError = 0                                       # the place where we will store the last error value
+    derivative = 0                                      # the place where we will store the derivative
 
     while True:
 
@@ -47,30 +47,77 @@ def detectObstacle():
             moveForward()                               # move forward
 
         else:                                           # if no object is deteced (too far)
-          error = sonarVal - offset                     # calculate the error by subtracting the offset
-          print("Error: " + str(error))                 # print error value
+            error = sonarVal - offset                   # calculate the error by subtracting the offset
+            print("Error: " + str(error))               # print error value
 
-          # integral = integral + error                 # calculate the integral (sum of all errors)
-          # print("Integral: " + integral)
+            # integral = integral + error               # calculate the integral (sum of all errors)
+            # print("Integral: " + integral)
 
-          # derivative = error - lastError              # calculate the derivative (rate of change of error)
-          # print("Derivative: " + derivative)
+            # derivative = error - lastError            # calculate the derivative (rate of change of error)
+            # print("Derivative: " + derivative)
 
-          turn = Kp*error                               # calculate turn value
-          # + Ki*integral + Kd*derivative
-          print("Turn: " + str(turn))                   # print turn value
+            turn = Kp*error                             # calculate turn value
+            # + Ki*integral + Kd*derivative
+            print("Turn: " + str(turn))                 # print turn value
 
-          powerL = Tp + turn                            # calculate power for motorL
-          powerR = Tp - turn                            # calculate power for motorR
+            powerL = Tp + turn                          # calculate power for motorL
+            powerR = Tp - turn                          # calculate power for motorR
 
-          motorL.run_timed(duty_cycle_sp = powerL, time_sp=100)     # turn
-          motorR.run_timed(duty_cycle_sp = powerR, time_sp=100)     # turn
+            motorL.run_timed(duty_cycle_sp = powerL, time_sp=100)     # turn
+            motorR.run_timed(duty_cycle_sp = powerR, time_sp=100)     # turn
 
-          lastError = error                             # save the current error so it can be the lastError next time around
-                                                        # done with loop, go back and do it again.
+            lastError = error                           # save the current error so it can be the lastError next time around
+            # done with loop, go back and do it again
+
+    print("done")
+    time.sleep(1)
 
 ################################################
-## out-dated FUNCTION: obstacleFinder ####################
+## FUNCTION: avoidObstacle #####################
+################################################
+
+def avoidObstacle():
+
+    # declare PID values
+    Kp = 0                                              # Kp = (0-TP)/(-1,050-0)
+    Ki = 0                                              # 0 for now
+    Kd = 0                                              # 0 for now
+
+    offset = 1350                                       # offset = (300+2400)/2 (avg)
+    Tp = 25                                             # target power
+
+    integral = 0                                        # the place where we will store our integral
+    lastError = 0                                       # the place where we will store the last error value
+    derivative = 0                                      # the place where we will store the derivative
+
+    while True:
+        sonarVal = sonar.value()                        # get sonar value
+        print("Current val is: " + str(sonarVal))       # print sonar value
+
+        error = sonarVal - offset                       # calculate the error by subtracting the offset
+        print("Error: " + str(error))                   # print error value
+
+        # integral = integral + error                   # calculate the integral (sum of all errors)
+        # print("Integral: " + integral)
+
+        # derivative = error - lastError                # calculate the derivative (rate of change of error)
+        # print("Derivative: " + derivative)
+
+        turn = Kp*error                                 # calculate turn value
+        # + Ki*integral + Kd*derivative
+        print("Turn: " + str(turn))                     # print turn value
+
+        powerL = Tp + turn                              # calculate power for motorL
+        powerR = Tp - turn                              # calculate power for motorR
+
+        motorL.run_timed(duty_cycle_sp = powerL, time_sp=100)     # turn
+        motorR.run_timed(duty_cycle_sp = powerR, time_sp=100)     # turn
+
+        lastError = error                           # save the current error so it can be the lastError next time around
+        # done with loop, go back and do it again
+
+################################################
+## out-dated FUNCTION: obstacleFinder ##########
 ################################################
 
 # def obstacleFinder():
@@ -126,17 +173,27 @@ def detectObstacle():
 #     print("done")
 #     time.sleep(1)
 
+################################################
+## FUNCTION: testSonar #########################
+################################################
 
-    def moveForward():
-        print("moveForward ------------------------")
+def testSonar():
 
-        # define motors
-        motorl =ev3.LargeMotor('outA')
-        motorl.connected
-        motorr =ev3.LargeMotor('outD')
-        motorr.connected
-
-        motorl.run_timed(duty_cycle_sp=25, time_sp=2000)
-        motorr.run_timed(duty_cycle_sp=25, time_sp=2000)
-
+    while True:
+        val = sonar.value()
+        print(str(val))
         time.sleep(1)
+
+def moveForward():
+    print("moveForward ------------------------")
+
+    # define motors
+    motorl =ev3.LargeMotor('outA')
+    motorl.connected
+    motorr =ev3.LargeMotor('outD')
+    motorr.connected
+
+    motorl.run_timed(duty_cycle_sp=25, time_sp=2000)
+    motorr.run_timed(duty_cycle_sp=25, time_sp=2000)
+
+    time.sleep(1)
