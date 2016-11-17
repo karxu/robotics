@@ -9,6 +9,7 @@ import utilities
 import openLoopControl as olc
 import detector as detector
 import taskA as taskA
+import taskA_PID as taskA_PID
 
 # print ('hello')
 

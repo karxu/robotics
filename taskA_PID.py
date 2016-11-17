@@ -14,11 +14,17 @@ def followline_PID():
     c.mode = 'COL-REFLECT'
 
     # Constants for PID
-    Kp = 0.875                     # formula goes here
-    Ki = 0
-    Kd = 0
     offset = 40                           # target color value
-    Tp = 35                               # target duty_cycle value
+    Tp = 25                               # target duty_cycle value
+    lowerBound = 0
+    higherBound = 80
+
+    lowestError = lowerBound - offset
+    Kp = (0 - Tp)/(lowestError - offset)
+    print('Kp: ', str(Kp))
+    time.sleep(3)
+    # Ki = 0
+    # Kd = 0
     # integral = 0
     # lastError = 0
     # derivative = 0
@@ -43,11 +49,11 @@ def followline_PID():
            # turn = Turn/100                    # REMEMBER to undo the affect of the factor of 100 in Kp, Ki and Kd!
            print("Turn: " + str(turn))
 
-           powerL = Tp + turn                 # the power level for the motorL
-           powerR = Tp - turn                 # the power level for the motorR
+           powerL = Tp - turn                 # the power level for the motorL
+           powerR = Tp + turn                 # the power level for the motorR
            left.run_timed(duty_cycle_sp = powerL, time_sp = 200)
            right.run_timed(duty_cycle_sp = powerR, time_sp = 200)
-
+           counter += 1
            # lastError = error                  # save the current error so it can be the lastError next time around
                                               # done with loop, go back and do it again.
 
