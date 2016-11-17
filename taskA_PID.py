@@ -24,29 +24,21 @@ def followline():
 
 
     #lef-right adjustable function that moves towards edge according to color
+
+    kp = 1.6
+    ki = 1
+    kd = 0
+
+    tp = 35 #target
     def moving(left,right,c):
         counter = 0
         while(counter < 150):
             color = c.value()
-            if(color < 15):
-                print('black', color)
-                left.run_timed(duty_cycle_sp=35, time_sp=150)
-                # while 'running' in left.state:
-                #     print left.state
-                #     time.sleep(0.1)
-                time.sleep(.15)
-                counter += 1
-            elif(color > 50):
-                print('white', color)
-                right.run_timed(duty_cycle_sp=35, time_sp=150)
-                time.sleep(.15)
-                counter += 1
-            else:
-                print('edge', color)
-                left.run_timed(duty_cycle_sp=35, time_sp=200)
-                right.run_timed(duty_cycle_sp=35, time_sp=200)
-                time.sleep(.15)
-                counter += 1
+
+            
+            time.sleep(.15)
+            counter += 1
+
 
 
     # white on the right, following outer edge

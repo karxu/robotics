@@ -28,6 +28,8 @@ def obstacleFinder():
         print('boo')
         if (sonar.value() > 2000):
             medmotor.run_timed(duty_cycle_sp=25, time_sp=800)
+            while 'running' in medmotor.state:
+                print medmotor.state
             time.sleep(1)
             medmotor.run_timed(duty_cycle_sp=-25, time_sp=800)
             time.sleep(1)
