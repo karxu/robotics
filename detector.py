@@ -13,6 +13,8 @@ motorL =ev3.LargeMotor('outA')
 motorL.connected
 motorR =ev3.LargeMotor('outD')
 motorR.connected
+motorM =ev3.MediumMotor('outB')
+motorM.connected
 
 ################################################
 ## FUNCTION: detectObstacle  ###################
@@ -70,6 +72,86 @@ def detectObstacle():
             # done with loop, go back and do it again
 
     print("done")
+    time.sleep(1)
+
+################################################
+## TEST FUNCTIONS ##############################
+################################################
+
+def testAvoidObstacle():
+    while True:
+
+        if( sonar.value() < 150 ):
+            ev3.Sound.speak('help me').wait()
+
+            turnL()
+            print(str(sonar.value()))
+            time.sleep(3)
+
+            while ( sonar.value() < 700 ):
+                moveForward()
+
+            val1 = sonar.value()
+            print(str(val1))
+            time.sleep(3)
+
+            turnR()
+            val2 = sonar.value()
+            print(str(val2))
+            time.sleep(3)
+
+            change = val1-val2
+
+            if(change>400):
+                while ( sonar.value() < 1000 ):
+                    moveForward()
+
+            turnR()
+            print("done")
+            time.sleep(1)
+
+            break
+        else:
+            moveForward()
+
+def testSonar():
+
+    while True:
+        val = sonar.value()
+        print(str(val))
+        time.sleep(5)
+
+################################################
+## HELPER FUNCTIONS ############################
+################################################
+
+def turnR():
+    motorL.run_timed(duty_cycle_sp = 40, time_sp=2000)
+    print("turn right")
+    time.sleep(1)
+    # motorM.run_timed(duty_cycle_sp = -35, time_sp=500)
+    # print("turn head left")
+    # time.sleep(1)
+
+def turnL():
+    motorR.run_timed(duty_cycle_sp = 35, time_sp=2000)
+    print("turn left")
+    motorM.run_timed(duty_cycle_sp = 50, time_sp=300)
+    print("turn head right")
+    time.sleep(1)
+
+def moveForward():
+    print("---moveForward----")
+
+    # define motors
+    motorl =ev3.LargeMotor('outA')
+    motorl.connected
+    motorr =ev3.LargeMotor('outD')
+    motorr.connected
+
+    motorl.run_timed(duty_cycle_sp=30, time_sp=1000)
+    motorr.run_timed(duty_cycle_sp=30, time_sp=1000)
+
     time.sleep(1)
 
 ################################################
@@ -174,28 +256,3 @@ def avoidObstacle():
 
 #     print("done")
 #     time.sleep(1)
-
-################################################
-## FUNCTION: testSonar #########################
-################################################
-
-def testSonar():
-
-    while True:
-        val = sonar.value()
-        print(str(val))
-        time.sleep(1)
-
-def moveForward():
-    print("moveForward ------------------------")
-
-    # define motors
-    motorl =ev3.LargeMotor('outA')
-    motorl.connected
-    motorr =ev3.LargeMotor('outD')
-    motorr.connected
-
-    motorl.run_timed(duty_cycle_sp=25, time_sp=2000)
-    motorr.run_timed(duty_cycle_sp=25, time_sp=2000)
-
-    time.sleep(1)
