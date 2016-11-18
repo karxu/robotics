@@ -44,7 +44,8 @@ ev3.Sound.speak('hello').wait()
 # taskA.followline()
 # taskA_PID.calibrate()
 # taskA_PID.followline_PID()
-detector.testSonar()
+detector.testAvoidObstacle2()
+# detector.testSonar()
 
 
 # remove this if you want it to exit as soon as its done:

@@ -83,29 +83,39 @@ def testAvoidObstacle2():
     diff = 0;
 
     turnL()
+    # prev_val = sonar.value()
+    # print(str(prev_val))
+    time.sleep(1)
+
+    moveForward()
     prev_val = sonar.value()
     print(str(prev_val))
-    time.sleep(3)
+    time.sleep(1)
 
     moveForward()
     print(str(sonar.value()))
-    time.sleep(3)
+    time.sleep(1)
 
     while True:
 
         diff = sonar.value() - prev_val
         print("Diff: " + str(diff))
-        time.sleep(3)
+        time.sleep(1)
 
-        if( diff.abs() >  200 ):
+        if( abs(diff) >  700 ):
             turnR()
+            # prev_val = sonar.value()
+            # print(str(prev_val))
+            time.sleep(1)
+
+            moveForward()
             prev_val = sonar.value()
             print(str(prev_val))
-            time.sleep(3)
+            time.sleep(1)
 
             moveForward()
             print(str(sonar.value()))
-            time.sleep(3)
+            time.sleep(1)
             #
             # if( diff.abs() > 200 ):
             #     turnR()
@@ -116,11 +126,11 @@ def testAvoidObstacle2():
         else:
             prev_val = sonar.value()
             print(str(prev_val))
-            time.sleep(3)
+            time.sleep(1)
 
             moveForward()
             print(str(sonar.value()))
-            time.sleep(3)
+            time.sleep(1)
 
 def testAvoidObstacle():
     while True:
@@ -160,17 +170,25 @@ def testAvoidObstacle():
 
 def testSonar():
 
-    while True:
-        val = sonar.value()
-        print(str(val))
-        time.sleep(5)
+    btn = ev3.Button()
+
+    readings = ""
+    readings_file = open('sonar_results.txt', 'w')
+
+    while not btn.backspace:
+        readings = readings + str(sonar.value()) + '\n'
+        print(str(sonar.value()))
+        time.sleep(3)
+    readings_file.write(readings)
+    readings_file.close()
 
 ################################################
 ## HELPER FUNCTIONS ############################
 ################################################
 
 def turnR():
-    motorL.run_timed(duty_cycle_sp = 40, time_sp=2000)
+    motorL.run_timed(duty_cycle_sp = 35, time_sp=2000)
+    # motorR.run_timed(duty_cycle_sp = 10, time_sp=2000)
     print("turn right")
     time.sleep(1)
     # motorM.run_timed(duty_cycle_sp = -35, time_sp=500)
@@ -179,6 +197,7 @@ def turnR():
 
 def turnL():
     motorR.run_timed(duty_cycle_sp = 35, time_sp=2000)
+    # motorL.run_timed(duty_cycle_sp = 10, time_sp=2000)
     print("turn left")
     motorM.run_timed(duty_cycle_sp = 50, time_sp=300)
     print("turn head right")
@@ -193,10 +212,10 @@ def moveForward():
     motorr =ev3.LargeMotor('outD')
     motorr.connected
 
-    motorl.run_timed(duty_cycle_sp=30, time_sp=1000)
-    motorr.run_timed(duty_cycle_sp=30, time_sp=1000)
+    motorl.run_timed(duty_cycle_sp=25, time_sp=800)
+    motorr.run_timed(duty_cycle_sp=25, time_sp=800)
 
-    time.sleep(1)
+    time.sleep(0.5)
 
 ################################################
 ## FUNCTION: avoidObstacle #####################
