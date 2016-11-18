@@ -20,6 +20,9 @@ motorM.connected
 #################### Main Functions #######################
 ###########################################################
 
+"include if statement in the followLine code that calls the circumvent() function"
+"when the sonar.value() < 150"
+
 def circumvent():
 
     prev_val = 0;       # keeps track of previous sonar value
@@ -30,7 +33,10 @@ def circumvent():
 
     while True:
 
-        ev3.Sound.speak('Going straight').wait()
+"include an if statement that allows robot to exit the circumvent() function when"
+"it detects the line from the color sensor"
+
+        # ev3.Sound.speak('Going straight').wait()
         moveForward()   # note: the new current val is now sonar.value()
 
         # calculate difference
@@ -57,7 +63,7 @@ def circumvent():
             # bc you're going to compare itw ith the new value (from moving forward)
             prev_val = sonar.value()
 
-"you will now exit the if/else statement and go back to the beg of the while loop where the robot moves forward"
+"you will now exit the if/else statement and go back to the beg of the while loop"
 
 ###########################################################
 #################### Test Functions #######################
