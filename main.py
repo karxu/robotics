@@ -37,16 +37,15 @@ ev3.Sound.speak('hello').wait()
 # Step E: Record values from the ultrasonic to a text file
 # tutorial.recordUltraSonic()
 
-
 # detector.moveForward()
 # detector.obstacleFinder()
 # detector.gyroReading()
 # taskA.followline()
 # taskA_PID.calibrate()
-# taskA_PID.followline_PID()
-detector.testAvoidObstacle2()
+taskA_PID.followline_PID()
+# detector.testAvoidObstacle2()
 # detector.testSonar()
-
+# detector.turnL()
 
 # remove this if you want it to exit as soon as its done:
 # wasn't working until I added parenthesis (Wed, 16, 3:40)

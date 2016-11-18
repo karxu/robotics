@@ -16,122 +16,54 @@ motorR.connected
 motorM =ev3.MediumMotor('outB')
 motorM.connected
 
-################################################
-## FUNCTION: detectObstacle  ###################
-## Robot either turns or moves forward until ###
-## an object is detected #######################
-################################################
+###########################################################
+#################### Main Functions #######################
+###########################################################
 
-def detectObstacle():
+def circumvent():
 
-    # declare PID values
-    Kp = 0.02                                           # Kp = (0-TP)/(-1,050-0)
-    Ki = 0                                              # 0 for now
-    Kd = 0                                              # 0 for now
+    prev_val = 0;       # keeps track of previous sonar value
+    diff = 0;           # keeps track of diff btwn current val and prev val
 
-    offset = 1350                                       # offset = (300+2400)/2 (avg)
-    Tp = 25                                             # target power
-
-    integral = 0                                        # the place where we will store our integral
-    lastError = 0                                       # the place where we will store the last error value
-    derivative = 0                                      # the place where we will store the derivative
-
-    while True:
-
-        sonarVal = sonar.value()                        # get sonar value
-        print("Current val is: " + str(sonarVal))       # print sonar value
-
-        if (sonarVal < 200):                            # if object detected is close enough
-            print("Obstacle detected")                  # print
-            break                                       # exit while loop
-
-        elif (sonarVal < 600):                          # if object detected is fairly locse
-            moveForward()                               # move forward
-
-        else:                                           # if no object is deteced (too far)
-            error = sonarVal - offset                   # calculate the error by subtracting the offset
-            print("Error: " + str(error))               # print error value
-
-            # integral = integral + error               # calculate the integral (sum of all errors)
-            # print("Integral: " + integral)
-
-            # derivative = error - lastError            # calculate the derivative (rate of change of error)
-            # print("Derivative: " + derivative)
-
-            turn = Kp*error                             # calculate turn value
-            # + Ki*integral + Kd*derivative
-            print("Turn: " + str(turn))                 # print turn value
-
-            powerL = Tp + turn                          # calculate power for motorL
-            powerR = Tp - turn                          # calculate power for motorR
-
-            motorL.run_timed(duty_cycle_sp = powerL, time_sp=100)     # turn
-            motorR.run_timed(duty_cycle_sp = powerR, time_sp=100)     # turn
-
-            lastError = error                           # save the current error so it can be the lastError next time around
-            # done with loop, go back and do it again
-
-    print("done")
-    time.sleep(1)
-
-################################################
-## TEST FUNCTIONS ##############################
-################################################
-
-def testAvoidObstacle2():
-    prev_val = 0;
-    diff = 0;
-
-    turnL()
-    # prev_val = sonar.value()
-    # print(str(prev_val))
-    time.sleep(1)
-
-    moveForward()
-    prev_val = sonar.value()
-    print(str(prev_val))
-    time.sleep(1)
-
-    moveForward()
-    print(str(sonar.value()))
+    turnL()             # robot will always turn left first
     time.sleep(1)
 
     while True:
 
+        ev3.Sound.speak('Going straight').wait()
+        moveForward()   # note: the new current val is now sonar.value()
+
+        # calculate difference
         diff = sonar.value() - prev_val
         print("Diff: " + str(diff))
-        time.sleep(1)
 
-        if( abs(diff) >  700 ):
+        # if the diff > 290, that means you reached the edge of the obstacle
+        # ie. WALL = 30, NO WALL = 900, DIFF = 870
+        if( (abs(diff) > 290) ):
+
+            ev3.Sound.speak('Turning right').wait()
             turnR()
-            # prev_val = sonar.value()
-            # print(str(prev_val))
             time.sleep(1)
 
-            moveForward()
+            # store the current value (from turning) as prev_val
+            # bc you're going to compare it with the new value (from moving forward)
             prev_val = sonar.value()
-            print(str(prev_val))
-            time.sleep(1)
 
-            moveForward()
-            print(str(sonar.value()))
-            time.sleep(1)
-            #
-            # if( diff.abs() > 200 ):
-            #     turnR()
-            #
-            # else:
-            #     moveForward()
-
+        # if the diff < 290, that means you did not reach the edge
+        # ie. WALL = 30, WALL CONTINUED = 35, DIFF = 5
         else:
+
+            # store the current value (from moving forward)
+            # bc you're going to compare itw ith the new value (from moving forward)
             prev_val = sonar.value()
-            print(str(prev_val))
-            time.sleep(1)
 
-            moveForward()
-            print(str(sonar.value()))
-            time.sleep(1)
+"you will now exit the if/else statement and go back to the beg of the while loop where the robot moves forward"
 
+###########################################################
+#################### Test Functions #######################
+###########################################################
+
+# this is pretty useless **ignore for now**
 def testAvoidObstacle():
     while True:
 
@@ -168,6 +100,7 @@ def testAvoidObstacle():
         else:
             moveForward()
 
+# use this to print sonar values at 3 sec intervals + store them in a .txt file
 def testSonar():
 
     btn = ev3.Button()
@@ -182,29 +115,30 @@ def testSonar():
     readings_file.write(readings)
     readings_file.close()
 
-################################################
-## HELPER FUNCTIONS ############################
-################################################
+###########################################################
+################## Helper Functions #######################
+###########################################################
 
+# when turning right, motorR moves slightly as well so it can turn wider
 def turnR():
-    motorL.run_timed(duty_cycle_sp = 35, time_sp=2000)
-    # motorR.run_timed(duty_cycle_sp = 10, time_sp=2000)
+    motorL.run_timed(duty_cycle_sp = 45, time_sp=2000)
+    motorR.run_timed(duty_cycle_sp = 20, time_sp=2000)
     print("turn right")
     time.sleep(1)
     # motorM.run_timed(duty_cycle_sp = -35, time_sp=500)
     # print("turn head left")
     # time.sleep(1)
 
+# when turning left, the eyes also turn so the robot can keep track of the wall
 def turnL():
-    motorR.run_timed(duty_cycle_sp = 35, time_sp=2000)
+    motorR.run_timed(duty_cycle_sp = 30, time_sp=2000)
     # motorL.run_timed(duty_cycle_sp = 10, time_sp=2000)
     print("turn left")
-    motorM.run_timed(duty_cycle_sp = 50, time_sp=300)
-    print("turn head right")
+    motorM.run_timed(duty_cycle_sp = 45, time_sp=300)
     time.sleep(1)
 
+# moves forward
 def moveForward():
-    print("---moveForward----")
 
     # define motors
     motorl =ev3.LargeMotor('outA')
@@ -216,106 +150,3 @@ def moveForward():
     motorr.run_timed(duty_cycle_sp=25, time_sp=800)
 
     time.sleep(0.5)
-
-################################################
-## FUNCTION: avoidObstacle #####################
-################################################
-
-def avoidObstacle():
-
-    # 300 - 1500
-
-    # declare PID values
-    Kp = 0.04                                           # Kp = (0-TP)/(-600-0)
-    Ki = 0                                              # 0 for now
-    Kd = 0                                              # 0 for now
-
-    offset = 900                                        # offset = (300+1500)/2 (avg)
-    Tp = 25                                             # target power
-
-    integral = 0                                        # the place where we will store our integral
-    lastError = 0                                       # the place where we will store the last error value
-    derivative = 0                                      # the place where we will store the derivative
-
-    while True:
-        sonarVal = sonar.value()                        # get sonar value
-        print("Current val is: " + str(sonarVal))       # print sonar value
-
-        error = sonarVal - offset                       # calculate the error by subtracting the offset
-        print("Error: " + str(error))                   # print error value
-
-        # integral = integral + error                   # calculate the integral (sum of all errors)
-        # print("Integral: " + integral)
-
-        # derivative = error - lastError                # calculate the derivative (rate of change of error)
-        # print("Derivative: " + derivative)
-
-        turn = Kp*error                                 # calculate turn value
-        # + Ki*integral + Kd*derivative
-        print("Turn: " + str(turn))                     # print turn value
-
-        powerL = Tp + turn                              # calculate power for motorL
-        powerR = Tp - turn                              # calculate power for motorR
-
-        motorL.run_timed(duty_cycle_sp = powerL, time_sp=100)     # turn
-        motorR.run_timed(duty_cycle_sp = powerR, time_sp=100)     # turn
-
-        lastError = error                           # save the current error so it can be the lastError next time around
-        # done with loop, go back and do it again
-
-################################################
-## out-dated FUNCTION: obstacleFinder ##########
-################################################
-
-# def obstacleFinder():
-
-#     # define motors
-#     motorl =ev3.LargeMotor('outA')
-#     motorl.connected
-#     motorr =ev3.LargeMotor('outD')
-#     motorr.connected
-
-#     # define ultrasonic sensor
-#     sonar = ev3.UltrasonicSensor(ev3.INPUT_2)
-#     sonar.connected
-#     sonar.mode = 'US-DIST-CM',
-
-#     medmotor = ev3.MediumMotor('outB')
-#     medmotor.connected
-#     medmotor.reset
-#     # medmotor.position_sp = 50
-
-#     print("sonar value", sonar.value())
-#     print("medmotor position", medmotor.position)
-
-#     while True:
-#         print('boo')
-#         if (sonar.value() > 2000):
-#             medmotor.run_timed(duty_cycle_sp=25, time_sp=800)
-#             time.sleep(1)
-#             medmotor.run_timed(duty_cycle_sp=-25, time_sp=800)
-#             time.sleep(1)
-#         else:
-#             moveForward()
-#             break
-
-#     # while True:
-#     #     # if sonar does not detect anything less than 300mm away
-#     #     if (sonar.value() > 2400):
-#     #         # print current distance value in mm
-#     #         print(sonar.value()
-#     #         # move forward
-#     #         motorr.run_timed(duty_cycle_sp=25, time_sp=1000)
-#     #         motorl.run_timed(duty_cycle_sp=25, time_sp=1000)
-#     #     # else sonar does detect something less than 300mm away
-#     #     else if (sonar.value < 300)
-#     #     else:
-#     #         # print
-#     #         print("obstacle detected")
-#     #         # turn left
-#     #         motorr.run_timed(duty_cycle_sp=25, time_sp=2000)
-#     #         #break
-#     #         break
-
-#     print("done")
-#     time.sleep(1)
