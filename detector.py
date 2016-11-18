@@ -78,6 +78,50 @@ def detectObstacle():
 ## TEST FUNCTIONS ##############################
 ################################################
 
+def testAvoidObstacle2():
+    prev_val = 0;
+    diff = 0;
+
+    turnL()
+    prev_val = sonar.value()
+    print(str(prev_val))
+    time.sleep(3)
+
+    moveForward()
+    print(str(sonar.value()))
+    time.sleep(3)
+
+    while True:
+
+        diff = sonar.value() - prev_val
+        print("Diff: " + str(diff))
+        time.sleep(3)
+
+        if( diff.abs() >  200 ):
+            turnR()
+            prev_val = sonar.value()
+            print(str(prev_val))
+            time.sleep(3)
+
+            moveForward()
+            print(str(sonar.value()))
+            time.sleep(3)
+            #
+            # if( diff.abs() > 200 ):
+            #     turnR()
+            #
+            # else:
+            #     moveForward()
+
+        else:
+            prev_val = sonar.value()
+            print(str(prev_val))
+            time.sleep(3)
+
+            moveForward()
+            print(str(sonar.value()))
+            time.sleep(3)
+
 def testAvoidObstacle():
     while True:
 
