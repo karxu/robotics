@@ -78,12 +78,14 @@ def detectObstacle():
 
 def avoidObstacle():
 
+    # 300 - 1500
+
     # declare PID values
-    Kp = 0                                              # Kp = (0-TP)/(-1,050-0)
+    Kp = 0.04                                           # Kp = (0-TP)/(-600-0)
     Ki = 0                                              # 0 for now
     Kd = 0                                              # 0 for now
 
-    offset = 1350                                       # offset = (300+2400)/2 (avg)
+    offset = 900                                        # offset = (300+1500)/2 (avg)
     Tp = 25                                             # target power
 
     integral = 0                                        # the place where we will store our integral

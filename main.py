@@ -43,7 +43,8 @@ ev3.Sound.speak('hello').wait()
 # detector.gyroReading()
 # taskA.followline()
 # taskA_PID.calibrate()
-taskA_PID.followline_PID()
+# taskA_PID.followline_PID()
+detector.avoidObstacle()
 
 
 # remove this if you want it to exit as soon as its done:
