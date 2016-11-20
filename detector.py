@@ -2,6 +2,7 @@ import time
 import ev3dev.ev3 as ev3
 import math
 import utilities as util
+import taskC as taskC
 
 # declare sonar
 sonar = ev3.UltrasonicSensor(ev3.INPUT_4)
@@ -16,12 +17,17 @@ motorR.connected
 motorM =ev3.MediumMotor('outB')
 motorM.connected
 
+# declare color sensor
+c = ev3.ColorSensor(ev3.INPUT_3)
+c.connected
+c.mode = 'COL-REFLECT'
+
 ###########################################################
 #################### Main Functions #######################
 ###########################################################
 
-# "include if statement in the followLine code that calls the circumvent() function"
-# "when the sonar.value() < 150"
+"include if statement in the followLine code that calls the circumvent() function"
+"when the sonar.value() < 150"
 
 def circumvent():
 
@@ -33,8 +39,11 @@ def circumvent():
 
     while True:
 
-# "include an if statement that allows robot to exit the circumvent() function when"
-# "it detects the line from the color sensor"
+"include an if statement that allows robot to exit the circumvent() function when"
+"it detects the line from the color sensor"
+        if ( c.value() < 40 ): # you may need to change the integer
+            taskC.followLine()
+            break
 
         # ev3.Sound.speak('Going straight').wait()
         moveForward()   # note: the new current val is now sonar.value()
