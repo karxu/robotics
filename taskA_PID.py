@@ -48,7 +48,7 @@ def followline_PID():
     c.mode = 'COL-REFLECT'
 
     # Constants for PID
-    offset = 35                           # target color value from calibrate
+    offset = 30                           # target color value from calibrate
     Tp = 30                               # target duty_cycle value
     lowerBound = 0
     higherBound = 80
@@ -64,7 +64,7 @@ def followline_PID():
 
 
     # left-right adjustable function that moves towards edge according to color
-    def moving(left,right,c,lastError, integral, min_c, max_c):
+    def moving(left,right,c,lastError, integral):
         counter = 0
         while(counter < 200):
            color = c.value()
