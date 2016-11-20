@@ -4,7 +4,7 @@ import math
 import utilities as util
 
 def calibrate():
-    c = ev3.ColorSensor(ev3.INPUT_1)
+    c = ev3.ColorSensor(ev3.INPUT_3)
     c.connected
     c.mode = 'COL-REFLECT'
 
@@ -43,7 +43,7 @@ def followline_PID():
     motorL.connected
     motorR =ev3.LargeMotor('outD')
     motorR.connected
-    c = ev3.ColorSensor(ev3.INPUT_1)
+    c = ev3.ColorSensor(ev3.INPUT_3)
     c.connected
     c.mode = 'COL-REFLECT'
 

@@ -11,7 +11,7 @@ def followline():
     motorl.connected
     motorr =ev3.LargeMotor('outD')
     motorr.connected
-    c = ev3.ColorSensor(ev3.INPUT_1)
+    c = ev3.ColorSensor(ev3.INPUT_3)
     c.connected
     c.mode = 'COL-REFLECT'
 

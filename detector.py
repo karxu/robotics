@@ -4,7 +4,7 @@ import math
 import utilities as util
 
 # declare sonar
-sonar = ev3.UltrasonicSensor(ev3.INPUT_2)
+sonar = ev3.UltrasonicSensor(ev3.INPUT_4)
 sonar.connected
 sonar.mode = 'US-DIST-CM'
 

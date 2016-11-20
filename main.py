@@ -10,6 +10,7 @@ import openLoopControl as olc
 import detector as detector
 import taskA as taskA
 import taskA_PID as taskA_PID
+import taskB as taskB
 
 # print ('hello')
 
@@ -42,8 +43,8 @@ ev3.Sound.speak('hello').wait()
 # detector.gyroReading()
 # taskA.followline()
 # taskA_PID.calibrate()
-# taskA_PID.followline_PID()
-detector.circumvent()
+taskA_PID.followline_PID()
+# detector.circumvent()
 # detector.testSonar()
 # detector.turnL()
 

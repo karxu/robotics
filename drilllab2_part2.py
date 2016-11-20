@@ -44,7 +44,7 @@ def gyroReading():
     motorr.connected
 
     # gryo reading
-    g = ev3.GyroSensor(ev3.INPUT_4)
+    g = ev3.GyroSensor(ev3.INPUT_2)
     g.connected
     g.mode = 'GYRO-ANG'
 
