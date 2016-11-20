@@ -49,7 +49,7 @@ def followline_PID():
 
     # Constants for PID
     offset = 35                           # target color value from calibrate
-    Tp = 28                               # target duty_cycle value
+    Tp = 30                               # target duty_cycle value
     lowerBound = 0
     higherBound = 80
 
@@ -61,23 +61,19 @@ def followline_PID():
     Kd = 0
     lastError = 0
     integral = 0
-    max_c = 0
-    min_c = 80
+
+
     # left-right adjustable function that moves towards edge according to color
     def moving(left,right,c,lastError, integral, min_c, max_c):
         counter = 0
         while(counter < 200):
-           color = c.value() # what is the current light reading?
-           if (color > max_c):
-               max_c = color
-
-           if (color < min_c):
-               min_c = color
+           color = c.value()
            print("Current color is: " + str(color))
 
            error = color - offset          # calculate the error by subtracting the offset
            print("Error: " + str(error))
 
+# Jenn: add in integral and derivative
            integral = integral + error        # calculate the integral (sum of all errors)
            print("Integral: " + str(integral))
         #    derivative = error - lastError     # calculate the derivative (rate of change of error)
@@ -94,14 +90,14 @@ def followline_PID():
            print("powerR: " + str(powerR))
            left.run_timed(duty_cycle_sp = powerL, time_sp = 150)
            right.run_timed(duty_cycle_sp = powerR, time_sp = 150)
+
            time.sleep(.1)
            counter += 1
            lastError = error               # save the current error so it can be the lastError next time
            print('----------------------------', counter)
-        print('max: ' + str(max_c))
-        print('min: ' + str(min_c))
+
     # white on the right, following outer edge
-    moving(motorL,motorR,c,lastError, integral, min_c, max_c)
+    moving(motorL,motorR,c,lastError, integral)
 
     #white on left, following inside edge
     # moving(motorr,motorl,c)
