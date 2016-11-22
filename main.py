@@ -12,10 +12,10 @@ import taskA as taskA
 import taskA_PID as taskA_PID
 import taskB as taskB
 import taskC as taskC
-
+import pid as pid
 # print ('hello')
 
-ev3.Sound.speak('hello').wait()
+# ev3.Sound.speak('hello').wait()
 
 # Step A: Basic open driving
 # tutorial.operateWheelsBasic()
@@ -52,8 +52,10 @@ ev3.Sound.speak('hello').wait()
 # detector.turnL()
 
 # taskC.turntest()
-taskC.aroundObstacle()
+# taskC.aroundObstacle()
 # taskC.sonarTesting()
+
+pid.calculating_pid()
 
 # remove this if you want it to exit as soon as its done:
 # wasn't working until I added parenthesis (Wed, 16, 3:40)
