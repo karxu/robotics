@@ -11,6 +11,7 @@ import detector as detector
 import taskA as taskA
 import taskA_PID as taskA_PID
 import taskB as taskB
+import taskC as taskC
 
 # print ('hello')
 
@@ -41,12 +42,18 @@ ev3.Sound.speak('hello').wait()
 # detector.moveForward()
 # detector.obstacleFinder()
 # detector.gyroReading()
+
 # taskA.followline()
 # taskA_PID.calibrate()
-taskA_PID.followline_PID()
+# taskA_PID.followline_PID()
+
 # detector.circumvent()
 # detector.testSonar()
 # detector.turnL()
+
+# taskC.turntest()
+taskC.aroundObstacle()
+# taskC.sonarTesting()
 
 # remove this if you want it to exit as soon as its done:
 # wasn't working until I added parenthesis (Wed, 16, 3:40)

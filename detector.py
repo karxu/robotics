@@ -26,8 +26,8 @@ c.mode = 'COL-REFLECT'
 #################### Main Functions #######################
 ###########################################################
 
-"include if statement in the followLine code that calls the circumvent() function"
-"when the sonar.value() < 150"
+# "include if statement in the followLine code that calls the circumvent() function"
+# "when the sonar.value() < 150"
 
 def circumvent():
 
@@ -39,8 +39,8 @@ def circumvent():
 
     while True:
 
-"include an if statement that allows robot to exit the circumvent() function when"
-"it detects the line from the color sensor"
+# "include an if statement that allows robot to exit the circumvent() function when"
+# "it detects the line from the color sensor"
         if ( c.value() < 40 ): # you may need to change the integer
             taskC.followLine()
             break
@@ -55,21 +55,12 @@ def circumvent():
         # if the diff > 290, that means you reached the edge of the obstacle
         # ie. WALL = 30, NO WALL = 900, DIFF = 870
         if( (abs(diff) > 290) ):
-
-            ev3.Sound.speak('Turning right').wait()
             turnR()
-            time.sleep(1)
-
-            # store the current value (from turning) as prev_val
-            # bc you're going to compare it with the new value (from moving forward)
             prev_val = sonar.value()
 
         # if the diff < 290, that means you did not reach the edge
         # ie. WALL = 30, WALL CONTINUED = 35, DIFF = 5
         else:
-
-            # store the current value (from moving forward)
-            # bc you're going to compare itw ith the new value (from moving forward)
             prev_val = sonar.value()
 
 # "you will now exit the if/else statement and go back to the beg of the while loop"
@@ -79,41 +70,41 @@ def circumvent():
 ###########################################################
 
 # this is pretty useless **ignore for now**
-def testAvoidObstacle():
-    while True:
-
-        if( sonar.value() < 150 ):
-            ev3.Sound.speak('help me').wait()
-
-            turnL()
-            print(str(sonar.value()))
-            time.sleep(3)
-
-            while ( sonar.value() < 700 ):
-                moveForward()
-
-            val1 = sonar.value()
-            print(str(val1))
-            time.sleep(3)
-
-            turnR()
-            val2 = sonar.value()
-            print(str(val2))
-            time.sleep(3)
-
-            change = val1-val2
-
-            if(change>400):
-                while ( sonar.value() < 1000 ):
-                    moveForward()
-
-            turnR()
-            print("done")
-            time.sleep(1)
-
-            break
-        else:
-            moveForward()
+# def testAvoidObstacle():
+#     while True:
+#
+#         if( sonar.value() < 150 ):
+#             ev3.Sound.speak('help me').wait()
+#
+#             turnL()
+#             print(str(sonar.value()))
+#             time.sleep(3)
+#
+#             while ( sonar.value() < 700 ):
+#                 moveForward()
+#
+#             val1 = sonar.value()
+#             print(str(val1))
+#             time.sleep(3)
+#
+#             turnR()
+#             val2 = sonar.value()
+#             print(str(val2))
+#             time.sleep(3)
+#
+#             change = val1-val2
+#
+#             if(change>400):
+#                 while ( sonar.value() < 1000 ):
+#                     moveForward()
+#
+#             turnR()
+#             print("done")
+#             time.sleep(1)
+#
+#             break
+#         else:
+#             moveForward()
 
 # use this to print sonar values at 3 sec intervals + store them in a .txt file
 def testSonar():
@@ -136,32 +127,23 @@ def testSonar():
 
 # when turning right, motorR moves slightly as well so it can turn wider
 def turnR():
-    motorL.run_timed(duty_cycle_sp = 45, time_sp=2000)
-    motorR.run_timed(duty_cycle_sp = 20, time_sp=2000)
+    ev3.Sound.speak('Turning right').wait()
     print("turn right")
-    time.sleep(1)
-    # motorM.run_timed(duty_cycle_sp = -35, time_sp=500)
-    # print("turn head left")
-    # time.sleep(1)
+    motorL.run_timed(duty_cycle_sp = 50, time_sp=2000)
+    motorR.run_timed(duty_cycle_sp = 10, time_sp=2000)
+    time.sleep(.2)
+
+    time.sleep(.2)
 
 # when turning left, the eyes also turn so the robot can keep track of the wall
 def turnL():
-    motorR.run_timed(duty_cycle_sp = 30, time_sp=2000)
-    # motorL.run_timed(duty_cycle_sp = 10, time_sp=2000)
     print("turn left")
+    motorR.run_timed(duty_cycle_sp = 27, time_sp=2000)
     motorM.run_timed(duty_cycle_sp = 45, time_sp=300)
-    time.sleep(1)
+    time.sleep(.2)
 
 # moves forward
 def moveForward():
-
-    # define motors
-    motorl =ev3.LargeMotor('outA')
-    motorl.connected
-    motorr =ev3.LargeMotor('outD')
-    motorr.connected
-
-    motorl.run_timed(duty_cycle_sp=25, time_sp=800)
-    motorr.run_timed(duty_cycle_sp=25, time_sp=800)
-
+    motorL.run_timed(duty_cycle_sp=25, time_sp=800)
+    motorR.run_timed(duty_cycle_sp=25, time_sp=800)
     time.sleep(0.5)
