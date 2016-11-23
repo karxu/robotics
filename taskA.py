@@ -1,7 +1,5 @@
 import time
 import ev3dev.ev3 as ev3
-import math
-import utilities as util
 
 
 def followline_PID():
@@ -15,12 +13,10 @@ def followline_PID():
     c.mode = 'COL-REFLECT'
 
     # Constants for PID
-    offset = 45                           # target color value from calibrate
+    offset = 45                           # target color value when on line edge
     Tp = 24                               # target duty_cycle value
-    lowerBound = 0
-    higherBound = 80
-
-    lowestError = lowerBound - offset
+    # lowerBound = 0
+    # lowestError = lowerBound - offset
     # Kp = float(0 - Tp)/float(lowestError - offset)
     Kp = 26
     Ki = 0
@@ -28,20 +24,16 @@ def followline_PID():
     lastError = 0
     integral = 0
 
-
     # left-right adjustable function that moves towards edge according to color
     def moving(left,right,c,lastError, integral):
+        # counter keeps track of how long color sensor is only detecting white
         counter = 0
+        # while it's not consistently detecting white, it must be on the line
         while(counter < 11):
             color = c.value()
-            print("Current color is: " + str(color))
             error = color - offset
-            print("Error: " + str(error))
-
             integral = integral + error
-            print("Integral: " + str(integral))
             derivative = error - lastError
-            print("Derivative: " + str(derivative))
 
             # exit statement when white is consistently detected
             if (abs(derivative) < 5 and color > 82):
@@ -49,18 +41,15 @@ def followline_PID():
 
             turn = Kp*error + Ki*integral + Kd*derivative
             turn = turn/100
-            print("Turn: " + str(turn))
-
             powerL = Tp - turn                 # the power level for the motorL
             powerR = Tp + turn                 # the power level for the motorR
-            print("powerL: " + str(powerL))
-            print("powerR: " + str(powerR))
+
             left.run_timed(duty_cycle_sp = powerL, time_sp = 150)
             right.run_timed(duty_cycle_sp = powerR, time_sp = 150)
-
             time.sleep(.1)
-            lastError = error               # save the current error so it can be the lastError next time
-            print('----------------------------', counter)
+
+            lastError = error            # save the current error for derivative
+
         ev3.Sound.speak('finished following line').wait()
         print ('finished following line')
 
@@ -69,14 +58,12 @@ def followline_PID():
 
     #white on left, following inside edge
     # moving(motorr,motorl,c)
-    print('done with line following!!')
 
 
 
 
+# brute-force version of followline
 def followline():
-    print('followline begin----------------')
-
     # connecting motors and senors
     motorl =ev3.LargeMotor('outA')
     motorl.connected
@@ -85,7 +72,6 @@ def followline():
     c = ev3.ColorSensor(ev3.INPUT_3)
     c.connected
     c.mode = 'COL-REFLECT'
-
 
     #lef-right adjustable function that moves towards edge according to color
     def moving(left,right,c):
@@ -112,10 +98,4 @@ def followline():
                 time.sleep(.15)
                 counter += 1
 
-
-    # white on the right, following outer edge
     moving(motorl,motorr,c)
-
-    #white on left, following inside edge
-    # moving(motorr,motorl,c)
-    print('done with line following!!')

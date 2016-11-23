@@ -147,3 +147,24 @@ def moveForward():
     motorL.run_timed(duty_cycle_sp=25, time_sp=800)
     motorR.run_timed(duty_cycle_sp=25, time_sp=800)
     time.sleep(0.5)
+
+
+    # Onji's brute force logic copied over from TaskC
+    # prev_val = 0;       # keeps track of previous sonar value
+    # diff = 0;           # keeps track of diff btwn current val and prev val
+    # while (colorVal > 15):
+    #     # calculate difference
+    #     moveForward()
+    #     diff = sonar.value() - prev_val
+    #     print("Diff: " + str(diff))
+    #     # if the diff > 290, that means you reached the edge of the obstacle
+    #     # ie. WALL = 30, NO WALL = 900, DIFF = 870
+    #     if( (abs(diff) > 290) ):
+    #         ev3.Sound.speak('Turning right').wait()
+    #         turnR()
+    #         time.sleep(1)
+    #         prev_val = sonar.value()
+    #         colorVal = c.value()
+    #     else:
+    #         prev_val = sonar.value()
+    #         colorVal = c.value()
