@@ -13,6 +13,7 @@ import taskA_PID as taskA_PID
 import taskB as taskB
 import taskC as taskC
 import pid as pid
+import sensor_testing.py as testing
 # print ('hello')
 
 # ev3.Sound.speak('hello').wait()
@@ -44,16 +45,14 @@ import pid as pid
 # detector.gyroReading()
 
 # taskA.followline()
-# taskA_PID.calibrate()
-# taskA_PID.followline_PID()
+# taskA.followline_PID()
 
 # detector.circumvent()
 # detector.testSonar()
 # detector.turnL()
 
-# taskC.turntest()
 # taskC.aroundObstacle()
-# taskC.sonarTesting()
+
 
 pid.calculating_pid()
 

@@ -4,47 +4,6 @@ import math
 import utilities as util
 import detector as detector
 
-def sonarTesting():
-    # declare sonar
-    sonar = ev3.UltrasonicSensor(ev3.INPUT_4)
-    sonar.connected
-    sonar.mode = 'US-DIST-CM'
-    motorM =ev3.MediumMotor('outB')
-    motorM.connected
-
-    ev3.Sound.speak('Place robot at obstacle start').wait()
-    print('Place at obstacle start')
-    sonar1 = sonar.value()
-    print(sonar1)
-    motorM.run_timed(duty_cycle_sp = 45, time_sp=400)
-    time.sleep(1)
-
-    ev3.Sound.speak('start moving').wait()
-    print('start moving')
-    time.sleep(1)
-    counter = 0
-    while(counter < 20):
-        sonar2 = sonar.value()
-        print(sonar2)
-        time.sleep(1)
-        counter += 1
-    ev3.Sound.speak('finished').wait()
-
-def turntest():
-    # connecting motors
-    motorL =ev3.LargeMotor('outA')
-    motorL.connected
-    motorR =ev3.LargeMotor('outD')
-    motorR.connected
-    motorM =ev3.MediumMotor('outB')
-    motorM.connected
-    print("turn left")
-    motorR.run_timed(duty_cycle_sp = 60, time_sp=3000)
-    motorL.run_timed(duty_cycle_sp = -60, time_sp=3000)
-    time.sleep(.2)
-    motorM.run_timed(duty_cycle_sp = 60, time_sp=800)
-    time.sleep(.2)
-
 
 
 
