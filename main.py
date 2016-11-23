@@ -13,7 +13,7 @@ import taskA_PID as taskA_PID
 import taskB as taskB
 import taskC as taskC
 import pid as pid
-import sensor_testing.py as testing
+import sensor_testing as testing
 # print ('hello')
 
 # ev3.Sound.speak('hello').wait()
@@ -47,14 +47,18 @@ import sensor_testing.py as testing
 # taskA.followline()
 # taskA.followline_PID()
 
+
+# testing.turnL()
+# testing.motorTesting()
+
 # detector.circumvent()
 # detector.testSonar()
 # detector.turnL()
 
-# taskC.aroundObstacle()
+taskC.aroundObstacle()
 
 
-pid.calculating_pid()
+# pid.calculating_pid()
 
 # remove this if you want it to exit as soon as its done:
 # wasn't working until I added parenthesis (Wed, 16, 3:40)

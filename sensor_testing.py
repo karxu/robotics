@@ -73,8 +73,21 @@ def motorTesting():
     motorM =ev3.MediumMotor('outB')
     motorM.connected
     print("turn left")
-    motorR.run_timed(duty_cycle_sp = 60, time_sp=3000)
-    motorL.run_timed(duty_cycle_sp = -60, time_sp=3000)
+    motorR.run_timed(duty_cycle_sp = 10, time_sp=3000)
+    motorL.run_timed(duty_cycle_sp = -90, time_sp=3000)
     time.sleep(.2)
     motorM.run_timed(duty_cycle_sp = 60, time_sp=800)
+    time.sleep(.2)
+
+def turnL():
+    motorL =ev3.LargeMotor('outA')
+    motorL.connected
+
+    motorM =ev3.MediumMotor('outB')
+    motorM.connected
+
+    print("turn left")
+    motorL.run_timed(duty_cycle_sp = -80, time_sp=3000)
+    time.sleep(.2)
+    motorM.run_timed(duty_cycle_sp = 58, time_sp=1000)
     time.sleep(.2)

@@ -16,13 +16,13 @@ def followline_PID():
 
     # Constants for PID
     offset = 45                           # target color value from calibrate
-    Tp = 25                               # target duty_cycle value
+    Tp = 24                               # target duty_cycle value
     lowerBound = 0
     higherBound = 80
 
     lowestError = lowerBound - offset
     # Kp = float(0 - Tp)/float(lowestError - offset)
-    Kp = 25
+    Kp = 26
     Ki = 0
     Kd = 0
     lastError = 0
@@ -32,7 +32,7 @@ def followline_PID():
     # left-right adjustable function that moves towards edge according to color
     def moving(left,right,c,lastError, integral):
         counter = 0
-        while(counter < 50):
+        while(counter < 11):
             color = c.value()
             print("Current color is: " + str(color))
             error = color - offset
@@ -42,6 +42,10 @@ def followline_PID():
             print("Integral: " + str(integral))
             derivative = error - lastError
             print("Derivative: " + str(derivative))
+
+            # exit statement when white is consistently detected
+            if (abs(derivative) < 5 and color > 82):
+                counter += 1
 
             turn = Kp*error + Ki*integral + Kd*derivative
             turn = turn/100
@@ -55,9 +59,10 @@ def followline_PID():
             right.run_timed(duty_cycle_sp = powerR, time_sp = 150)
 
             time.sleep(.1)
-            counter += 1
             lastError = error               # save the current error so it can be the lastError next time
             print('----------------------------', counter)
+        ev3.Sound.speak('finished following line').wait()
+        print ('finished following line')
 
     # white on the right, following outer edge
     moving(motorL,motorR,c,lastError, integral)

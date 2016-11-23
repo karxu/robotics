@@ -98,9 +98,6 @@ def aroundObstacle():
         moving()
 
 
-
-
-
     def moving():
         # Constants for PID
         offset = 45
@@ -108,7 +105,7 @@ def aroundObstacle():
         Kp = 25
 
         # move forward until sonar detects object
-        while(sonar.value() > 250 ):
+        while(sonar.value() > 150 ):
            color = c.value()
            error = color - offset
            turn = Kp*error
@@ -138,12 +135,11 @@ def aroundObstacle():
 
     def turnL():
         print("turn left")
-        motorR.run_timed(duty_cycle_sp = 60, time_sp=3000)
-        motorL.run_timed(duty_cycle_sp = -60, time_sp=3000)
+        motorR.run_timed(duty_cycle_sp = 10, time_sp=3000)
+        motorL.run_timed(duty_cycle_sp = -90, time_sp=3000)
         time.sleep(.2)
         motorM.run_timed(duty_cycle_sp = 30, time_sp=800)
         time.sleep(.2)
-
 
     # moves forward
     def moveForward():
