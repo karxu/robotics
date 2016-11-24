@@ -4,65 +4,43 @@ import time
 import ev3dev.ev3 as ev3
 
 # Local Imports
-import tutorial as tutorial
-import utilities
-import openLoopControl as olc
 import detector as detector
 import taskA as taskA
 import taskB as taskB
 import taskC as taskC
-import taskb4 as taskb
-
-import pid as pid
 import sensor_testing as testing
-# print ('hello')
 
-# ev3.Sound.speak('hello').wait()
+ev3.Sound.speak('hello there, I hope this demo goes well').wait()
 
-# Step A: Basic open driving
-# tutorial.operateWheelsBasic()
-
-# Step B: Turn on an off an LED using a switch
-# tutorial.makeLightSwitch()
-
-# Step C: Use switches to drive robot back and forward
-# tutorial.makeLightAndMotorSwitch()
-
-# Step D: Use a class to develop a bigger program with a state
-# o = olc.openLoopControl()
-# # execute (with default params)
-# o.operateWheels()
-# # update parameters
-# o.time_to_spin = 1.0
-# o.duty_cycle_sp = 50
-# # execute again
-# o.operateWheels()
-
-# Step E: Record values from the ultrasonic to a text file
-# tutorial.recordUltraSonic()
-
-# detector.moveForward()
-# detector.obstacleFinder()
-# detector.gyroReading()
-
-# taskA.followline()
-# taskA.followline_PID()
+touch = ev3.TouchSensor()
+touch.connected
 
 
-# testing.turnL()
-# testing.motorTesting()
+counter = 0
 
-# detector.circumvent()
-# detector.testSonar()
-# detector.turnL()
+if(touch.is_pressed() == 1):
+    counter += 1
 
-# taskC.aroundObstacle()
+if(counter == 1):
+    ev3.Sound.speak('starting task A').wait()
+    time.sleep(1)
+    taskA.followline_PID()
 
-taskb.taskB()
+if(counter == 2):
+    ev3.Sound.speak('starting task B').wait()
+    time.sleep(1)
+    taskB.taskB()
 
-# pid.calculating_pid()
+if(counter == 3):
+    ev3.Sound.speak('starting task C').wait()
+    time.sleep(1)
+    taskC.aroundObstacle()
 
-# remove this if you want it to exit as soon as its done:
-# wasn't working until I added parenthesis (Wed, 16, 3:40)
-print("main: wait 2sec, then end")
-time.sleep(2)
+# i didn't actually put in a stop for C, because i realized you can't do that from
+# this main file, unless you think of another way
+
+# we'll have to rerun main.py between the tasks but we don't have to reconnect
+# it to a computer this way
+
+
+time.sleep(5)
