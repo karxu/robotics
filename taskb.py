@@ -15,53 +15,66 @@ c.mode = 'COL-REFLECT'
 def taskB():
     side = 1
     line = 0
-    colour = c.value()
+    powerleft = 20
+    powerright = 20
     while line < 3:
-        if (colour > 10000000000):
-            forward()
-        else:
-            motorl.run_direct(duty_cycle_sp = 0)
-            motorr.run_direct(duty_cycle_sp = 0)
-            time.sleep(.2)
-            turn(side,colour)
-            side = side + 1
+        while (c.value() <= 20):
+            motorl.run_direct(duty_cycle_sp = powerleft)
+            motorr.run_direct(duty_cycle_sp = powerright)
+            time.sleep(.1)
+            print(c.value())
+        motorl.run_direct(duty_cycle_sp = 0)
+        motorr.run_direct(duty_cycle_sp = 0)
+        time.sleep(1)
+        turn(side)
+        side = side + 1
         line = line + 1
-    motorl.run_timed(duty_cycle_sp = 30, time_sp=3000)
-    motorr.run_timed(duty_cycle_sp = 30, time_sp=3000)
+    motorl.run_timed(duty_cycle_sp = 30, time_sp=30000)
+    motorr.run_timed(duty_cycle_sp = 30, time_sp=30000)
 
-def forward():
-    powerleft = 50
-    powerright = 50
-    motorl.run_direct(duty_cycle_sp = powerleft)
-    motorr.run_direct(duty_cycle_sp = powerright)
 
-def turn(side,colour):
+def turn(side):
     #even numbers left inside line, odd numbers right inside line
     if (side%2 == 0):
     #    ev3.Sound.speak('I have reached the end of the line and will search on the right for the next line').wait()
-       ev3.Sound.speak('eh').wait()
        #turn 90 degrees
-       motorl.run_timed(duty_cycle_sp = 30, time_sp=1000)
-       motorr.run_timed(duty_cycle_sp = -30, time_sp=1000)
-       time.sleep(.2)
-       detectnewline(colour)
-       motorl.run_timed(duty_cycle_sp = -30, time_sp=1000)
-       motorr.run_timed(duty_cycle_sp = 30, time_sp=1000)
-       time.sleep(.2)
+       motorl.run_timed(duty_cycle_sp = 70, time_sp=500)   #experimented with hard value here, 10:-20. 30:-20, 30:0, (too small) 100|:0, 100:-50, (overshooting) 90:-30(best), 45:0, 50:0, 70:0, 80,0, 70:-10
+       motorr.run_timed(duty_cycle_sp = -10, time_sp=500)  #and the time stamp 100 1000 10000 500(best time)
+       time.sleep(1)
+       detectnewline()
+       motorl.run_timed(duty_cycle_sp = -10, time_sp=500)
+       motorr.run_timed(duty_cycle_sp = 70, time_sp=500)
+       time.sleep(1)
     else:
     #    ev3.Sound.speak('I have reached the end of the line and will search on the left for the next line').wait()
-       ev3.Sound.speak('eh').wait()
-       motorl.run_timed(duty_cycle_sp = -30, time_sp=1000)
-       motorr.run_timed(duty_cycle_sp = 30, time_sp=1000)
-       time.sleep(.2)
-       detectnewline(colour)
-       motorl.run_timed(duty_cycle_sp = 30, time_sp=1000)
-       motorr.run_timed(duty_cycle_sp = -30, time_sp=1000)
-       time.sleep(.2)
+       motorl.run_timed(duty_cycle_sp = -10, time_sp=500)
+       motorr.run_timed(duty_cycle_sp = 70, time_sp=500)
+       time.sleep(1)
+       detectnewline()
+       motorl.run_timed(duty_cycle_sp = 70, time_sp=500)
+       motorr.run_timed(duty_cycle_sp = -10, time_sp=500)
+       time.sleep(1)
+    return
 
-def detectnewline(colour):
-    while (colour < 150):
-        forward()
+def detectnewline():
+    powerleft = 20
+    powerright = 20
+    while (c.value() > 20):
+        print(c.value())
+        motorl.run_direct(duty_cycle_sp = powerleft)
+        motorr.run_direct(duty_cycle_sp = powerright)
+        time.sleep(.1)
+    motorl.run_timed(duty_cycle_sp = -10, time_sp=500)
+    motorr.run_timed(duty_cycle_sp = -10, time_sp=500)
+    time.sleep(1)
+    return
 
 
 taskB()
+
+# def taskB():
+#     motorl.run_timed(duty_cycle_sp = 70, time_sp=500)   #experimented with hard value here, 10:-20. 30:-20, 30:0, (too small) 100|:0, 100:-50, (overshooting) 90:-30(best), 45:0, 50:0, 70:0, 80,0, 70:-10
+#     motorr.run_timed(duty_cycle_sp = -10, time_sp=500)   #and the time stamp 100 1000 10000 500(best time)
+#
+#
+# taskB()

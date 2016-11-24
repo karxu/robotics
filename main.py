@@ -58,7 +58,7 @@ import sensor_testing as testing
 
 # taskC.aroundObstacle()
 
-taskb()
+taskb.taskB()
 
 # pid.calculating_pid()
 
