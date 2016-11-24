@@ -69,43 +69,6 @@ def circumvent():
 #################### Test Functions #######################
 ###########################################################
 
-# this is pretty useless **ignore for now**
-# def testAvoidObstacle():
-#     while True:
-#
-#         if( sonar.value() < 150 ):
-#             ev3.Sound.speak('help me').wait()
-#
-#             turnL()
-#             print(str(sonar.value()))
-#             time.sleep(3)
-#
-#             while ( sonar.value() < 700 ):
-#                 moveForward()
-#
-#             val1 = sonar.value()
-#             print(str(val1))
-#             time.sleep(3)
-#
-#             turnR()
-#             val2 = sonar.value()
-#             print(str(val2))
-#             time.sleep(3)
-#
-#             change = val1-val2
-#
-#             if(change>400):
-#                 while ( sonar.value() < 1000 ):
-#                     moveForward()
-#
-#             turnR()
-#             print("done")
-#             time.sleep(1)
-#
-#             break
-#         else:
-#             moveForward()
-
 # use this to print sonar values at 3 sec intervals + store them in a .txt file
 def testSonar():
 
@@ -147,24 +110,3 @@ def moveForward():
     motorL.run_timed(duty_cycle_sp=25, time_sp=800)
     motorR.run_timed(duty_cycle_sp=25, time_sp=800)
     time.sleep(0.5)
-
-
-    # Onji's brute force logic copied over from TaskC
-    # prev_val = 0;       # keeps track of previous sonar value
-    # diff = 0;           # keeps track of diff btwn current val and prev val
-    # while (colorVal > 15):
-    #     # calculate difference
-    #     moveForward()
-    #     diff = sonar.value() - prev_val
-    #     print("Diff: " + str(diff))
-    #     # if the diff > 290, that means you reached the edge of the obstacle
-    #     # ie. WALL = 30, NO WALL = 900, DIFF = 870
-    #     if( (abs(diff) > 290) ):
-    #         ev3.Sound.speak('Turning right').wait()
-    #         turnR()
-    #         time.sleep(1)
-    #         prev_val = sonar.value()
-    #         colorVal = c.value()
-    #     else:
-    #         prev_val = sonar.value()
-    #         colorVal = c.value()
