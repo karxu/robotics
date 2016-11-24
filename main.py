@@ -11,6 +11,7 @@ import detector as detector
 import taskA as taskA
 import taskB as taskB
 import taskC as taskC
+import taskb as taskb
 
 import pid as pid
 import sensor_testing as testing
@@ -55,8 +56,9 @@ import sensor_testing as testing
 # detector.testSonar()
 # detector.turnL()
 
-taskC.aroundObstacle()
+# taskC.aroundObstacle()
 
+taskb()
 
 # pid.calculating_pid()
 
