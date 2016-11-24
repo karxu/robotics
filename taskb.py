@@ -38,7 +38,7 @@ def turn(side):
     if (side%2 == 0):
     #    ev3.Sound.speak('I have reached the end of the line and will search on the right for the next line').wait()
        #turn 90 degrees
-       motorl.run_timed(duty_cycle_sp = 75, time_sp=530)   #experimented with hard value here, 10:-20. 30:-20, 30:0, (too small) 100|:0, 100:-50, (overshooting) 90:-30(best), 45:0, 50:0, 70:0, 80,0, 70:-10
+       motorl.run_timed(duty_cycle_sp = 73, time_sp=450)   #experimented with hard value here, 10:-20. 30:-20, 30:0, (too small) 100|:0, 100:-50, (overshooting) 90:-30(best), 45:0, 50:0, 70:0, 80,0, 70:-10
        motorr.run_timed(duty_cycle_sp = -10, time_sp=550)  #and the time stamp 100 1000 10000 500(best time)
        time.sleep(1)
        detectnewline()
@@ -47,8 +47,8 @@ def turn(side):
        time.sleep(1)
     else:
     #    ev3.Sound.speak('I have reached the end of the line and will search on the left for the next line').wait()
-       motorl.run_timed(duty_cycle_sp = -10, time_sp=530)
-       motorr.run_timed(duty_cycle_sp = 75, time_sp=550)
+       motorl.run_timed(duty_cycle_sp = -10, time_sp=450)
+       motorr.run_timed(duty_cycle_sp = 73, time_sp=550)
        time.sleep(1)
        detectnewline()
        motorl.run_timed(duty_cycle_sp = 80, time_sp=550)
@@ -57,15 +57,15 @@ def turn(side):
     return
 
 def detectnewline():
-    powerleft = 20
-    powerright = 20
+    powerleft = 19
+    powerright = 19
     while (c.value() > 20):
         print(c.value())
         motorl.run_direct(duty_cycle_sp = powerleft)
         motorr.run_direct(duty_cycle_sp = powerright)
         time.sleep(.1)
-    # motorl.run_timed(duty_cycle_sp = -1, time_sp=5)
-    # motorr.run_timed(duty_cycle_sp = -1, time_sp=5)
+    motorl.run_timed(duty_cycle_sp = -1, time_sp=2)
+    motorr.run_timed(duty_cycle_sp = -1, time_sp=2)
     time.sleep(1)
     return
 

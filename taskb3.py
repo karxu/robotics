@@ -16,7 +16,7 @@ def taskB():
     line = 0
     while line < 3:
         while c.value() < 70:
-            taskA.followline()
+            taskA.followline_PID()
         motorl.run_direct(duty_cycle_sp = 0)
         motorr.run_direct(duty_cycle_sp = 0)
         time.sleep(1)
