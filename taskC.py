@@ -1,5 +1,8 @@
+#! /usr/bin/env python
+# Core imports
 import time
 import ev3dev.ev3 as ev3
+
 
 def aroundObstacle():
     # connecting motors and sensors
@@ -18,12 +21,21 @@ def aroundObstacle():
     sonar.connected
     sonar.mode = 'US-DIST-CM'
 
+    # touch = ev3.TouchSensor(ev3.INPUT_1)
+    # touch.connected
+
+
+
     # adaptation of TaskA followline_PID function
     def moving():
         # Constants for PID
         offset = 45
         Tp = 20
         Kp = 26
+
+        # if(touch.is_pressed() == 1):
+        #     ev3.Sound.speak('Exiting TaskC').wait
+        #     time.sleep(3)
 
         # move forward until sonar detects object
         while(sonar.value() > 80 ):
@@ -69,6 +81,10 @@ def aroundObstacle():
         integral = 0
         colorVal = c.value()
 
+        # if(touch.is_pressed() == 1):
+        #     ev3.Sound.speak('Exiting TaskC').wait
+        #     time.sleep(3)
+
         # while color sensor doesn't detect black line, go around obstacle
         # using PID controller proportional to ultrasonic value
         while (c.value() > 15):
@@ -98,3 +114,6 @@ def aroundObstacle():
 
     # start with moving function
     moving()
+
+
+aroundObstacle()

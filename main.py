@@ -18,8 +18,9 @@ touch.connected
 
 counter = 0
 
-if(touch.is_pressed() == 1):
+if(touch.is_pressed() == True):
     counter += 1
+    print('counter', counter)
 
 if(counter == 1):
     ev3.Sound.speak('starting task A').wait()

@@ -1,5 +1,7 @@
-import ev3dev.ev3 as ev3
+#! /usr/bin/env python
+# Core imports
 import time
+import ev3dev.ev3 as ev3
 
 motorl = ev3.LargeMotor('outA')
 motorl.connected
@@ -17,7 +19,7 @@ z = -5
 def taskB():
     side = 1   #which side the robot begins from
     line = 0   #the lines the robot has advanced on
-    while line < 4: #while having not reached the end of the track continue advancing
+    while line < 3: #while having not reached the end of the track continue advancing
         while c.value() < 80:   #having not reached the end of the line/detected white move forward
             forward(side)
         motorl.run_direct(duty_cycle_sp = 0)
@@ -26,8 +28,12 @@ def taskB():
         turn(side)
         side = side + 1
         line = line + 1
-    motorl.run_timed(duty_cycle_sp = 30, time_sp=2000)
-    motorr.run_timed(duty_cycle_sp = 30, time_sp=2000)
+    while c.value() < 18:
+        motorl.run_direct(duty_cycle_sp = 20)
+        motorr.run_direct(duty_cycle_sp = 20)
+    motorl.run_direct(duty_cycle_sp = 0)
+    motorr.run_direct(duty_cycle_sp = 0)
+    ev3.Sound.speak('I have finished the task').wait()
 
 def turn(side):
     x = 475  #variables for determing power output
