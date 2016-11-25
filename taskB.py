@@ -12,9 +12,6 @@ c.connected
 c.mode = 'COL-REFLECT'
 colour = c.value()
 
-x = 475
-y = 85
-z = -5
 
 def taskB():
     side = 1   #which side the robot begins from
@@ -24,7 +21,7 @@ def taskB():
             forward(side)
         motorl.run_direct(duty_cycle_sp = 0)
         motorr.run_direct(duty_cycle_sp = 0)
-        time.sleep(1)
+        time.sleep(.1)
         turn(side)
         side = side + 1
         line = line + 1
